@@ -1,6 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/src/widgets/container.dart';
-import 'package:flutter/src/widgets/framework.dart';
 import 'package:proj/profile.dart';
 
 class log extends StatefulWidget {
@@ -44,7 +42,7 @@ class _logState extends State<log> {
         child: ElevatedButton(
           onPressed: () {
             Navigator.push(context,
-                MaterialPageRoute(builder: (context) => const profile()));
+                MaterialPageRoute(builder: (context) => profile()));
           },
           child: const Text('Submit'),
         ),

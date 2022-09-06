@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:proj/log.dart';
-import 'package:proj/profile.dart';
-
 void main() {
   runApp(const MyApp());
 }
@@ -15,7 +13,7 @@ class MyApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       home: Scaffold(
         appBar: AppBar(),
-        body: log(),
+        body: const log(),
       ),
     );
   }

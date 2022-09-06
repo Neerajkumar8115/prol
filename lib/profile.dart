@@ -1,7 +1,8 @@
+import 'dart:async';
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
+import 'package:http/http.dart' as http;
 
 class profile extends StatefulWidget {
   const profile({super.key});
@@ -11,19 +12,28 @@ class profile extends StatefulWidget {
 }
 
 class _profileState extends State<profile> {
-// final  user = await rootBundle.loadString(catalog);
+  Future<List<dynamic>> fetchUsers() async {
+    var result = await http.get(Uri.parse("https://reqres.in/"));
+    return jsonDecode(result.body)['result'];
+  }
+
+  @override
+  void initState() {
+    var response = fetchUsers();
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
-          title: Text('Profile'),
+          title: const Text('Profile'),
           centerTitle: true,
         ),
         body: Column(
           children: [
             Expanded(
               child: ListView.builder(
-                itemCount: 10,
                 itemBuilder: (context, index) => const Card(
                   child: Padding(
                     padding: EdgeInsets.all(16.0),
