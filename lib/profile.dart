@@ -1,8 +1,9 @@
-import 'dart:async';
-import 'dart:convert';
 
 import 'package:flutter/material.dart';
-import 'package:http/http.dart' as http;
+import 'package:flutter/services.dart';
+import 'package:proj/models/user_model.dart';
+import 'package:proj/services/api_service.dart';
+import 'package:shimmer/shimmer.dart';
 
 class profile extends StatefulWidget {
   const profile({super.key});
@@ -12,41 +13,73 @@ class profile extends StatefulWidget {
 }
 
 class _profileState extends State<profile> {
-  Future<List<dynamic>> fetchUsers() async {
-    var result = await http.get(Uri.parse("https://reqres.in/"));
-    return jsonDecode(result.body)['result'];
-  }
+  
 
-  @override
-  void initState() {
-    var response = fetchUsers();
-    super.initState();
-  }
+//create instance
+      final ApiServices apiServices = ApiServices();
+
+
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-        appBar: AppBar(
-          title: const Text('Profile'),
-          centerTitle: true,
-        ),
-        body: Column(
-          children: [
-            Expanded(
-              child: ListView.builder(
-                itemBuilder: (context, index) => const Card(
-                  child: Padding(
-                    padding: EdgeInsets.all(16.0),
-                    child: ListTile(
-                      leading: CircleAvatar(
-                        backgroundImage: NetworkImage(''),
-                      ),
+    return WillPopScope(
+      onWillPop: () async{
+        SystemNavigator.pop();
+        return true;
+      },
+      child: Scaffold(
+          appBar: AppBar(
+            title: const Text('Profile'),
+            centerTitle: true,
+            elevation: 1,
+            automaticallyImplyLeading: true,
+          ),
+          body: FutureBuilder<UserModel>(
+            future: apiServices.fetchUserData(),
+            builder: (context, AsyncSnapshot<UserModel> snapshot){
+            if(snapshot.hasData){
+              return ListView.builder(
+                itemCount: snapshot.data!.data!.length,
+                itemBuilder: ((context, index) {
+                  var data = snapshot.data!.data![index];
+                return Column(
+                  children: [
+                    ListTile(
+                      title: Text(data.firstName ?? ""),
+                      subtitle: Text(data.email ?? "error"),
+                      leading: CircleAvatar(radius: 40,
+                      backgroundImage: NetworkImage(data.avatar ?? "logo")),
                     ),
-                  ),
-                ),
-              ),
+                    const Divider(),
+                  ],
+                );
+              }));
+            } else{
+              return SizedBox(
+      child: Shimmer.fromColors(
+      baseColor: Colors.grey,
+      highlightColor: Colors.grey.shade300,
+      child: ListView.builder(
+        itemCount: 5,
+        itemBuilder: ((context, index) {
+        return  Padding(
+            padding: const EdgeInsets.all(5.0),
+            child: ListTile(
+              leading: CircleAvatar(radius: 40),
+              contentPadding: EdgeInsets.only(top: 20, bottom: 10),
+              title: Container(height: 20, width: 70, color: Colors.blue),
+              subtitle: Container(height: 20, width: 130, color: Colors.grey),
             ),
-          ],
-        ));
+          );
+      }))
+      ),
+    );
+            }
+          }
+          ), 
+          
+          
+          ),
+    );
   }
 }

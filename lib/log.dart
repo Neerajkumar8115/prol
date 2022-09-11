@@ -1,28 +1,55 @@
 import 'package:flutter/material.dart';
 import 'package:proj/profile.dart';
+import 'package:proj/services/api_service.dart';
 
-class log extends StatefulWidget {
-  const log({super.key});
+class Log extends StatefulWidget {
+  const Log({super.key});
 
   @override
-  State<log> createState() => _logState();
+  State<Log> createState() => _LogState();
 }
 
-class _logState extends State<log> {
+class _LogState extends State<Log> {
+
+  final _formKey = GlobalKey<FormState>(); 
+  final TextEditingController _nameController = TextEditingController();
+  final TextEditingController _jobController = TextEditingController();
+
+  final ApiServices apiServices = ApiServices();
+
+
+  @override
+  void dispose() {
+    // TODO: implement dispose
+    super.dispose();
+    _nameController.dispose();
+    _jobController.dispose();
+  }
+
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: Padding(
         padding: const EdgeInsets.all(22.0),
-        child: Column(
+        child: Form(
+          key: _formKey,
+          child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
-          children: const [
+          children:  [
             Text('Full Name'),
             SizedBox(
               height: 15,
             ),
-            TextField(
+            TextFormField(
+              controller: _nameController,
               decoration: InputDecoration(border: OutlineInputBorder()),
+              validator: (value){
+                if(value!.isEmpty){
+                  return "Please enter your name";
+                }
+                 return null;
+              },
             ),
             SizedBox(
               height: 15,
@@ -31,18 +58,35 @@ class _logState extends State<log> {
             SizedBox(
               height: 15,
             ),
-            TextField(
+             TextFormField(
+              controller: _jobController,
               decoration: InputDecoration(border: OutlineInputBorder()),
-            )
+              validator: (value){
+                if(value!.isEmpty){
+                  return "Enter you job title";
+                } else if( value.length< 6){
+                  return "Minimum 6 character required*";
+                }
+                return null;
+              },
+            ),
           ],
+        ),
         ),
       ),
       bottomNavigationBar: Padding(
         padding: const EdgeInsets.all(22.0),
         child: ElevatedButton(
           onPressed: () {
-            Navigator.push(context,
-                MaterialPageRoute(builder: (context) => profile()));
+           if(_formKey.currentState!.validate()){
+            //successfull
+            //  Navigator.push(context,
+            //     MaterialPageRoute(builder: (context) => profile()));
+
+              apiServices.createAccount(_nameController.text.toString(), _jobController.text.toString(), context);  
+
+
+           } 
           },
           child: const Text('Submit'),
         ),
