@@ -9,6 +9,10 @@ class log extends StatefulWidget {
 }
 
 class _logState extends State<log> {
+  var fullname;
+  var jobname;
+  final fullnameController = TextEditingController();
+  final jobnameController = TextEditingController();
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -22,7 +26,10 @@ class _logState extends State<log> {
               height: 15,
             ),
             TextField(
-              decoration: InputDecoration(border: OutlineInputBorder()),
+              decoration: InputDecoration(
+                border: OutlineInputBorder(),
+                labelText: 'Full name',
+              ),
             ),
             SizedBox(
               height: 15,
@@ -32,8 +39,11 @@ class _logState extends State<log> {
               height: 15,
             ),
             TextField(
-              decoration: InputDecoration(border: OutlineInputBorder()),
-            )
+              decoration: InputDecoration(
+                border: OutlineInputBorder(),
+                labelText: 'Job name',
+              ),
+            ),
           ],
         ),
       ),
@@ -41,8 +51,8 @@ class _logState extends State<log> {
         padding: const EdgeInsets.all(22.0),
         child: ElevatedButton(
           onPressed: () {
-            Navigator.push(context,
-                MaterialPageRoute(builder: (context) => profile()));
+            Navigator.push(
+                context, MaterialPageRoute(builder: (context) => profile()));
           },
           child: const Text('Submit'),
         ),
