@@ -10,13 +10,11 @@ class Log extends StatefulWidget {
 }
 
 class _LogState extends State<Log> {
-
-  final _formKey = GlobalKey<FormState>(); 
+  final _formKey = GlobalKey<FormState>();
   final TextEditingController _nameController = TextEditingController();
   final TextEditingController _jobController = TextEditingController();
 
   final ApiServices apiServices = ApiServices();
-
 
   @override
   void dispose() {
@@ -26,7 +24,6 @@ class _LogState extends State<Log> {
     _jobController.dispose();
   }
 
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -35,58 +32,57 @@ class _LogState extends State<Log> {
         child: Form(
           key: _formKey,
           child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children:  [
-            Text('Full Name'),
-            SizedBox(
-              height: 15,
-            ),
-            TextFormField(
-              controller: _nameController,
-              decoration: InputDecoration(border: OutlineInputBorder()),
-              validator: (value){
-                if(value!.isEmpty){
-                  return "Please enter your name";
-                }
-                 return null;
-              },
-            ),
-            SizedBox(
-              height: 15,
-            ),
-            Text('Job Name'),
-            SizedBox(
-              height: 15,
-            ),
-             TextFormField(
-              controller: _jobController,
-              decoration: InputDecoration(border: OutlineInputBorder()),
-              validator: (value){
-                if(value!.isEmpty){
-                  return "Enter you job title";
-                } else if( value.length< 6){
-                  return "Minimum 6 character required*";
-                }
-                return null;
-              },
-            ),
-          ],
-        ),
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              const Text('Full Name'),
+              SizedBox(
+                height: 15,
+              ),
+              TextFormField(
+                controller: _nameController,
+                decoration: InputDecoration(border: OutlineInputBorder()),
+                validator: (value) {
+                  if (value!.isEmpty) {
+                    return "Please enter your name";
+                  }
+                  return null;
+                },
+              ),
+              SizedBox(
+                height: 15,
+              ),
+              Text('Job Name'),
+              SizedBox(
+                height: 15,
+              ),
+              TextFormField(
+                controller: _jobController,
+                decoration: const InputDecoration(border: OutlineInputBorder()),
+                validator: (value) {
+                  if (value!.isEmpty) {
+                    return "Enter you job title";
+                  } else if (value.length < 6) {
+                    return "Minimum 6 character required*";
+                  }
+                  return null;
+                },
+              ),
+            ],
+          ),
         ),
       ),
       bottomNavigationBar: Padding(
         padding: const EdgeInsets.all(22.0),
         child: ElevatedButton(
           onPressed: () {
-           if(_formKey.currentState!.validate()){
-            //successfull
-            //  Navigator.push(context,
-            //     MaterialPageRoute(builder: (context) => profile()));
+            if (_formKey.currentState!.validate()) {
+              //successfull
+              //  Navigator.push(context,
+              //     MaterialPageRoute(builder: (context) => profile()));
 
-              apiServices.createAccount(_nameController.text.toString(), _jobController.text.toString(), context);  
-
-
-           } 
+              apiServices.createAccount(_nameController.text.toString(),
+                  _jobController.text.toString(), context);
+            }
           },
           child: const Text('Submit'),
         ),
