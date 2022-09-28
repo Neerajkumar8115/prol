@@ -30,7 +30,7 @@ class ApiServices {
         ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
             backgroundColor: Colors.green, content: Text("Successfully")));
         Navigator.push(
-            context, MaterialPageRoute(builder: (context) => const profile()));
+            context, MaterialPageRoute(builder: (context) => const Profile()));
       }
     } catch (e) {
       if (kDebugMode) {

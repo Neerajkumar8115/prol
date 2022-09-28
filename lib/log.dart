@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:proj/profile.dart';
 import 'package:proj/services/api_service.dart';
 
 class Log extends StatefulWidget {
@@ -35,12 +34,12 @@ class _LogState extends State<Log> {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               const Text('Full Name'),
-              SizedBox(
+              const SizedBox(
                 height: 15,
               ),
               TextFormField(
                 controller: _nameController,
-                decoration: InputDecoration(border: OutlineInputBorder()),
+                decoration: const InputDecoration(border: OutlineInputBorder()),
                 validator: (value) {
                   if (value!.isEmpty) {
                     return "Please enter your name";
@@ -48,11 +47,11 @@ class _LogState extends State<Log> {
                   return null;
                 },
               ),
-              SizedBox(
+              const SizedBox(
                 height: 15,
               ),
-              Text('Job Name'),
-              SizedBox(
+              const Text('Job Name'),
+              const SizedBox(
                 height: 15,
               ),
               TextFormField(
